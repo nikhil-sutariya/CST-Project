@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %} | Send invite{% endblock title %}
+{% block nav_item_invite %}active{% endblock nav_item_invite %}
+{% block content %}
+<div class="w-50">
+    <h3 class="mb-4">Create Agency</h3>
+    <form method="POST">
+        {% csrf_token %}
+      <div class="form-group mb-3">
+        <label htmlFor="email" class="form-label custom-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" />
+      </div>
+      <button type="submit" class="btn btn-primary bg-dark">
+        Send Invitation
+      </button>
+    </form>
+  </div>
+{% endblock content %}

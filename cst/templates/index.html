@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block nav_item_home %}active{% endblock nav_item_home %}
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Hello {{user.first_name.capitalize}} {{user.last_name.capitalize}}</h2>
+{% else %}
+<h2>Home page</h2>
+{% endif %}
+{% endblock content %}

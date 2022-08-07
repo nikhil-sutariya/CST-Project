@@ -1,34 +1,48 @@
-from .models import Customer
+from django.conf import settings
+from cst_app.middleware import tenant_thread
 
-class AuthRouter:
-    # def get_user(request):
-    #     user = request.user
-    #     if user.role == 'Customer Standard User':
-    #         customer = Customer.objects.get(email = user.email)
-    #         agency = customer.agency_name.agency_name
-    #         return agency
-    #     return user
+class DataBaseRouter(object):
+    # def _default_db(self):
+    #     if hasattr(tenant_thread, 'agency') and tenant_thread.agency in settings.DATABASES:
+    #         return 'primary'
+    #     else:
+    #         return 'default'
+            
+    # def db_for_read(self, model, **hints):
+    #     if hasattr(tenant_thread, 'agency') and tenant_thread.agency in settings.DATABASES:
+    #         print(tenant_thread.agency)
+    #         return 'primary'
+    #     else:
+    #         return 'default'
+
+    # def db_for_write( self, model, **hints ):
+    #     if hasattr(tenant_thread, 'agency') and tenant_thread.agency in settings.DATABASES:
+    #         print(tenant_thread.agency)
+    #         return 'primary'
+    #     else:
+    #         return 'default'
+
+        #####
 
     def db_for_read(self, model, **hints):
-        # user = self.get_user()
-        if model._meta.app_label == 'cst_app':
+        if hasattr(tenant_thread, 'agency') and tenant_thread.agency in settings.DATABASES:
             return 'primary'
-        return None
+        else:
+            return 'default'
 
     def db_for_write(self, model, **hints):
-        if model._meta.app_label == 'cst_app':
+        if hasattr(tenant_thread, 'agency') and tenant_thread.agency in settings.DATABASES:
             return 'primary'
-        return None
+        else:
+            return 'default'
 
     def allow_relation(self, obj1, obj2, **hints):
-        if (
-            obj1._meta.app_label in self.route_app_labels or
-            obj2._meta.app_label in self.route_app_labels
-        ):
-           return True
+        if hasattr(tenant_thread, 'agency') and tenant_thread.agency in settings.DATABASES:
+            return True
         return None
 
     def allow_migrate(self, db, app_label, model_name=None, **hints):
-        if app_label in self.route_app_labels:
-            return db == 'primary'
-        return None
+        if hasattr(tenant_thread, 'agency') and tenant_thread.agency in settings.DATABASES:
+            return 'primary'
+        else:
+            return 'default'

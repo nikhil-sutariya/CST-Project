@@ -27,12 +27,12 @@ def login_view(request):
         user = authenticate(request, email=email, password=password)
         login(request, user)
         # print(conf.settings.DATABASES['primary'])
-        # if user.role == 'Customer Standard User':
-        #     customer = Customer.objects.get(email = email)
-        #     agency = customer.agency_name.agency_name
-        #     sqlite3.connect(f'{agency}.sqlite3')
-        #     conf.settings.DATABASES['primary']['NAME'] = BASE_DIR / f'{agency}.sqlite3'
-        #     print(conf.settings.DATABASES['primary'])
+        if user.role == 'Customer Standard User':
+            customer = Customer.objects.get(email = email)
+            agency = customer.agency_name.agency_name
+            sqlite3.connect(f'{agency}.sqlite3')
+            conf.settings.DATABASES['primary']['NAME'] = BASE_DIR / f'{agency}.sqlite3'
+            print(conf.settings.DATABASES['primary'])
         return redirect('index_view')
     return render(request, 'login.html')
 
@@ -73,7 +73,7 @@ def create_agency(request):
             name = agency_form.agency_name
             sqlite3.connect(f'{name}.sqlite3')
             conf.settings.DATABASES['primary']['NAME'] = BASE_DIR / f'{name}.sqlite3'
-            # print(conf.settings.DATABASES['primary'])
+            print(conf.settings.DATABASES['primary'])
             django.core.management.execute_from_command_line(['manage.py', 'migrate', 'cst_app', '--database', 'primary'])
             return redirect('index_view')
         else:

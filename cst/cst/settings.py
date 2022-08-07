@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'cst_app.middleware.RouterMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -48,7 +49,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'cst_app.middleware.RouterMiddleware',
 ]
 
 ROOT_URLCONF = 'cst.urls'
@@ -71,8 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'cst.wsgi.application'
 
-# DATABASE_ROUTERS = ['cst_app.router.AuthRouter']
-DATABASE_ROUTERS = ['cst_app.middleware.DataBaseRouter']
+DATABASE_ROUTERS = ['cst_app.router.DataBaseRouter']
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
